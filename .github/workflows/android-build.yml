@@ -32,4 +32,14 @@ jobs:
 
       - name: Build Debug APK
         run: |
-          c
+          cd "$GRADLEW_DIR"
+          ./gradlew clean assembleDebug --stacktrace
+
+      - name: List build outputs
+        run: ls -R "$GRADLEW_DIR/app/build/outputs/apk" || echo "APK folder not found"
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug
+          path: ${{ env.GRADLEW_DIR }}/app/build/outputs/apk/debug/*.apk
