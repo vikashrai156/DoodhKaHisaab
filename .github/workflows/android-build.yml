@@ -20,16 +20,16 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Find gradlew location
+        id: find-gradle
+        run: |
+          GRADLEW_PATH=$(find . -name "gradlew" | head -n 1)
+          echo "Gradle wrapper found at: $GRADLEW_PATH"
+          echo "GRADLEW_DIR=$(dirname "$GRADLEW_PATH")" >> $GITHUB_ENV
+
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+        run: chmod +x "$GRADLEW_DIR/gradlew"
 
       - name: Build Debug APK
-        run: ./gradlew clean assembleDebug --stacktrace
-
-      - name: List build output
-        run: ls -R app/build/outputs/apk
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-debug
+        run: |
+          c
